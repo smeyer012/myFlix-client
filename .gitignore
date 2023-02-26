@@ -2,5 +2,4 @@ node_modules
 .cache
 .parcel-cache
 .DS_Store
-dist/index.b4b6dfad.js
-dist/index.b4b6dfad.js.map
+dist

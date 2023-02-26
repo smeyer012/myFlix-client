@@ -27159,33 +27159,63 @@ const MainView = ()=>{
     _s();
     const [movies, setMovies] = (0, _react.useState)([]);
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
-    (0, _react.useEffect)(()=>{
-        fetch("https://hidden-sea-19542.herokuapp.com/movies").then((response)=>response.json()).then((data)=>{
-            const moviesFromApi = data.map((movie)=>{
-                return {
-                    id: movie._id,
-                    title: movie.Title,
-                    director: movie.Director,
-                    description: movie.Description,
-                    genre: movie.Genre
-                };
-            });
-            setMovies(moviesFromApi);
+    const URLS = [
+        "https://hidden-sea-19542.herokuapp.com/movies",
+        "https://hidden-sea-19542.herokuapp.com/directors",
+        "https://hidden-sea-19542.herokuapp.com/genres"
+    ];
+    const datafromAPI = async ()=>{
+        const fetchedUrls = URLS.map(async (url)=>{
+            const resp = await fetch(url);
+            return resp.json();
         });
+        const [movies, directors, genres] = await Promise.all(fetchedUrls);
+        const moviesFromApi = movies.map((movie)=>{
+            // const movieDirector = directors.find(({ _id }) => _id === movie.Director[0]) || {};
+            let movieDirector, directorList, addDirectors = "";
+            if (movie.Director.length == 1) directorList = directors.find(({ _id  })=>_id === movie.Director[0]).Name;
+            else {
+                movie.Director.forEach((director)=>{
+                    movieDirector = directors.find(({ _id  })=>_id === director);
+                    addDirectors += movieDirector.Name + ", ";
+                });
+                directorList = addDirectors.replace(/, $/, "");
+            }
+            let movieGenre, genreList, addGenres = "";
+            if (movie.Genre.length == 1) genreList = genres.find(({ _id  })=>_id === movie.Genre[0]).Name;
+            else {
+                movie.Genre.forEach((genre)=>{
+                    movieGenre = genres.find(({ _id  })=>_id === genre);
+                    addGenres += movieGenre.Name + ", ";
+                });
+                genreList = addGenres.replace(/, $/, "");
+            }
+            return {
+                id: movie._id,
+                title: movie.Title,
+                director: directorList,
+                description: movie.Description,
+                genre: genreList
+            };
+        });
+        setMovies(moviesFromApi);
+    };
+    (0, _react.useEffect)(()=>{
+        datafromAPI();
     }, []);
     if (selectedMovie) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
         movie: selectedMovie,
         onBackClick: ()=>setSelectedMovie(null)
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 30,
+        lineNumber: 75,
         columnNumber: 13
     }, undefined);
     if (movies.length === 0) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: "The list is empty!"
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 35,
+        lineNumber: 83,
         columnNumber: 16
     }, undefined);
     else return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27196,12 +27226,12 @@ const MainView = ()=>{
                 }
             }, movie._id, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 41,
+                lineNumber: 89,
                 columnNumber: 25
             }, undefined))
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 38,
+        lineNumber: 86,
         columnNumber: 13
     }, undefined);
 };
