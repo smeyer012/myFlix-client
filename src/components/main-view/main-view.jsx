@@ -7,22 +7,43 @@ export const MainView = () => {
 
     const [selectedMovie, setSelectedMovie] = useState(null);
 
+    // Research React useMemo and determine
+    // pros/cons and if it we be beneficial in this scenario
     useEffect(() => {
-        fetch('https://hidden-sea-19542.herokuapp.com/movies')
-            .then((response) => response.json())
-            .then((data) => {
-                const moviesFromApi = data.map((movie) => {
-                    return {
-                        id: movie._id,
-                        title: movie.Title,
-                        director: movie.Director,
-                        description: movie.Description,
-                        genre: movie.Genre
-                    };
-                });
+      const fetchAndFormatMovieMetadata = async () => {
+        const URLS = [
+          'https://hidden-sea-19542.herokuapp.com/movies',
+          'https://hidden-sea-19542.herokuapp.com/directors',
+          'https://hidden-sea-19542.herokuapp.com/genres',
+        ];
 
-                setMovies(moviesFromApi);
-            });
+        const fetcedhUrls = URLS.map(async (url) => {
+          const resp = await fetch(url);
+          return resp.json();
+        });
+
+        const [
+          moviesData,
+          directors,
+          genres,
+        ] = await Promise.all(fetcedhUrls);
+
+        const moviesFromApi = moviesData.map((movie) => {
+          const movieDirector = directors.find(({_id}) => _id ===  movie.Director[0]) || {};
+          const movieGenre = genres.find(({_id}) => _id ===  movie.Genre[0]) || {};
+
+          return {
+              id: movie._id,
+              title: movie.Title,
+              director: movieDirector.Name,
+              description: movie.Description,
+              genre: movieGenre.Name
+          };
+        });
+
+        setMovies(moviesFromApi);
+      }
+      fetchAndFormatMovieMetadata();
     }, []);
 
     if (selectedMovie) {
