@@ -82,8 +82,6 @@ export const MainView = () => {
         );
     }
 
-    <button onClick={() => { setUser(null); setToken(null); }}>Logout</button>
-
     if (selectedMovie) {
         return (
             <MovieView
@@ -94,10 +92,16 @@ export const MainView = () => {
     }
 
     if (movies.length === 0) {
-        return <div>The list is empty!</div>;
+        return (
+            <div>
+                <button onClick={() => { setUser(null); setToken(null); }}>Logout</button>
+                <p>The list is empty!</p>
+            </div>
+        );
     } else {
         return (
             <div>
+                <button onClick={() => { setUser(null); setToken(null); }}>Logout</button>
                 {
                     movies.map((movie) => (
                         <MovieCard
