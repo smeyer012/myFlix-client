@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
+import { LoginView } from "../login-view/login-view";
 
 export const MainView = () => {
 
     const [movies, setMovies] = useState([]);
-
     const [selectedMovie, setSelectedMovie] = useState(null);
+
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
 
     const URLS = [
         'https://hidden-sea-19542.herokuapp.com/movies',
@@ -17,7 +20,9 @@ export const MainView = () => {
     const datafromAPI = async () => {
 
         const fetchedUrls = URLS.map(async (url) => {
-            const resp = await fetch(url);
+            const resp = await fetch(url, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             return resp.json();
         });
 
@@ -27,39 +32,32 @@ export const MainView = () => {
             genres,
         ] = await Promise.all(fetchedUrls);
 
+        const getList = (movie, typeProp, typeArray) => {
+            let listItem, printList, buildList = "";
+            if (movie[typeProp].length == 1) {
+                printList = typeArray.find(({ _id }) => _id === movie[typeProp][0]).Name;
+            }
+            else {
+                movie[typeProp].forEach((itemID) => {
+                    listItem = typeArray.find(({ _id }) => _id === itemID);
+                    buildList += listItem.Name + ', ';
+                });
+                printList = buildList.replace(/, $/, '');
+            }
+            return printList;
+        }
+
         const moviesFromApi = movies.map((movie) => {
 
-            // const movieDirector = directors.find(({ _id }) => _id === movie.Director[0]) || {};
-            let movieDirector, directorList, addDirectors = "";
-            if (movie.Director.length == 1) {
-                directorList = directors.find(({ _id }) => _id === movie.Director[0]).Name;
-            }
-            else {
-                movie.Director.forEach((director) => {
-                    movieDirector = directors.find(({ _id }) => _id === director);
-                    addDirectors += movieDirector.Name + ', ';
-                });
-                directorList = addDirectors.replace(/, $/, '');
-            }
-
-            let movieGenre, genreList, addGenres = "";
-            if (movie.Genre.length == 1) {
-                genreList = genres.find(({ _id }) => _id === movie.Genre[0]).Name;
-            }
-            else {
-                movie.Genre.forEach((genre) => {
-                    movieGenre = genres.find(({ _id }) => _id === genre);
-                    addGenres += movieGenre.Name + ', ';
-                });
-                genreList = addGenres.replace(/, $/, '');
-            }
+            let movieDirectors = getList(movie, "Director", directors);
+            let movieGenres = getList(movie, "Genre", genres);
 
             return {
                 id: movie._id,
                 title: movie.Title,
-                director: directorList,
+                director: movieDirectors,
                 description: movie.Description,
-                genre: genreList
+                genre: movieGenres
             };
         });
 
@@ -67,8 +65,24 @@ export const MainView = () => {
     }
 
     useEffect(() => {
+        if (!token) {
+            return;
+        }
         datafromAPI();
-    }, []);
+    }, [token]);
+
+    if (!user) {
+        return (
+            <LoginView
+                onLoggedIn={(user, token) => {
+                    setUser(user);
+                    setToken(token);
+                }}
+            />
+        );
+    }
+
+    <button onClick={() => { setUser(null); setToken(null); }}>Logout</button>
 
     if (selectedMovie) {
         return (
