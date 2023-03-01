@@ -27,39 +27,32 @@ export const MainView = () => {
             genres,
         ] = await Promise.all(fetchedUrls);
 
+        const getList = (movie, typeProp, typeArray) => {
+            let listItem, printList, buildList = "";
+            if (movie[typeProp].length == 1) {
+                printList = typeArray.find(({ _id }) => _id === movie[typeProp][0]).Name;
+            }
+            else {
+                movie[typeProp].forEach((itemID) => {
+                    listItem = typeArray.find(({ _id }) => _id === itemID);
+                    buildList += listItem.Name + ', ';
+                });
+                printList = buildList.replace(/, $/, '');
+            }
+            return printList;
+        }
+
         const moviesFromApi = movies.map((movie) => {
 
-            // const movieDirector = directors.find(({ _id }) => _id === movie.Director[0]) || {};
-            let movieDirector, directorList, addDirectors = "";
-            if (movie.Director.length == 1) {
-                directorList = directors.find(({ _id }) => _id === movie.Director[0]).Name;
-            }
-            else {
-                movie.Director.forEach((director) => {
-                    movieDirector = directors.find(({ _id }) => _id === director);
-                    addDirectors += movieDirector.Name + ', ';
-                });
-                directorList = addDirectors.replace(/, $/, '');
-            }
-
-            let movieGenre, genreList, addGenres = "";
-            if (movie.Genre.length == 1) {
-                genreList = genres.find(({ _id }) => _id === movie.Genre[0]).Name;
-            }
-            else {
-                movie.Genre.forEach((genre) => {
-                    movieGenre = genres.find(({ _id }) => _id === genre);
-                    addGenres += movieGenre.Name + ', ';
-                });
-                genreList = addGenres.replace(/, $/, '');
-            }
+            let movieDirectors = getList(movie, "Director", directors);
+            let movieGenres = getList(movie, "Genre", genres);
 
             return {
                 id: movie._id,
                 title: movie.Title,
-                director: directorList,
+                director: movieDirectors,
                 description: movie.Description,
-                genre: genreList
+                genre: movieGenres
             };
         });
 
