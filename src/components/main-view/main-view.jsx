@@ -8,8 +8,10 @@ export const MainView = () => {
     const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(null);
 
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedToken = localStorage.getItem("token");
+    const [user, setUser] = useState(storedUser ? storedUser : null);
+    const [token, setToken] = useState(storedToken ? storedToken : null);
 
     const URLS = [
         'https://hidden-sea-19542.herokuapp.com/movies',
@@ -73,12 +75,14 @@ export const MainView = () => {
 
     if (!user) {
         return (
-            <LoginView
-                onLoggedIn={(user, token) => {
-                    setUser(user);
-                    setToken(token);
-                }}
-            />
+            <>
+                <LoginView
+                    onLoggedIn={(user, token) => {
+                        setUser(user);
+                        setToken(token);
+                    }}
+                />
+            </>
         );
     }
 
@@ -94,14 +98,14 @@ export const MainView = () => {
     if (movies.length === 0) {
         return (
             <div>
-                <button onClick={() => { setUser(null); setToken(null); }}>Logout</button>
+                <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
                 <p>The list is empty!</p>
             </div>
         );
     } else {
         return (
             <div>
-                <button onClick={() => { setUser(null); setToken(null); }}>Logout</button>
+                <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
                 {
                     movies.map((movie) => (
                         <MovieCard
