@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
+import { LoginView } from "../login-view/login-view";
+import { SignupView } from "../signup-view/signup-view";
 
 export const MainView = () => {
 
     const [movies, setMovies] = useState([]);
-
     const [selectedMovie, setSelectedMovie] = useState(null);
+
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedToken = localStorage.getItem("token");
+    const [user, setUser] = useState(storedUser ? storedUser : null);
+    const [token, setToken] = useState(storedToken ? storedToken : null);
 
     const URLS = [
         'https://hidden-sea-19542.herokuapp.com/movies',
@@ -17,7 +23,9 @@ export const MainView = () => {
     const datafromAPI = async () => {
 
         const fetchedUrls = URLS.map(async (url) => {
-            const resp = await fetch(url);
+            const resp = await fetch(url, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             return resp.json();
         });
 
@@ -60,8 +68,26 @@ export const MainView = () => {
     }
 
     useEffect(() => {
+        if (!token) {
+            return;
+        }
         datafromAPI();
-    }, []);
+    }, [token]);
+
+    if (!user) {
+        return (
+            <>
+                <LoginView
+                    onLoggedIn={(user, token) => {
+                        setUser(user);
+                        setToken(token);
+                    }}
+                />
+                or
+                <SignupView />
+            </>
+        );
+    }
 
     if (selectedMovie) {
         return (
@@ -73,10 +99,16 @@ export const MainView = () => {
     }
 
     if (movies.length === 0) {
-        return <div>The list is empty!</div>;
+        return (
+            <div>
+                <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
+                <p>The list is empty!</p>
+            </div>
+        );
     } else {
         return (
             <div>
+                <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
                 {
                     movies.map((movie) => (
                         <MovieCard
