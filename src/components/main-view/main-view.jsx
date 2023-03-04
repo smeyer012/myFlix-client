@@ -78,11 +78,10 @@ export const MainView = () => {
     }, [token]);
 
     return (
-        <Row>
+        <Row className="justify-content-md-center">
             {!user ? (
                 <>
-                    <Col md={1}></Col>
-                    <Col md={4}>
+                    <Col md={5}>
                         <LoginView
                             onLoggedIn={(user, token) => {
                                 setUser(user);
@@ -94,13 +93,14 @@ export const MainView = () => {
                     <Col md={5}>
                         <SignupView />
                     </Col>
-                    <Col md={1}></Col>
                 </>
             ) : selectedMovie ? (
-                <MovieView
-                    movie={selectedMovie}
-                    onBackClick={() => setSelectedMovie(null)}
-                />
+                <Col md={6}>
+                    <MovieView
+                        movie={selectedMovie}
+                        onBackClick={() => setSelectedMovie(null)}
+                    />
+                </Col>
             ) : movies.length === 0 ? (
                 <>
                     <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
