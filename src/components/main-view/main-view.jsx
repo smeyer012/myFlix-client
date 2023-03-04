@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
@@ -103,12 +104,12 @@ export const MainView = () => {
                 </Col>
             ) : movies.length === 0 ? (
                 <>
-                    <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
+                    <Button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</Button>
                     <p>The list is empty!</p>
                 </>
             ) : (
                 <>
-                    <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
+                    <Button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</Button>
                     {
                         movies.map((movie) => (
                             <Col md={4}>
