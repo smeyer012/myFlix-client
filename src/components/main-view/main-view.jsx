@@ -112,7 +112,7 @@ export const MainView = () => {
                     <Button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</Button>
                     {
                         movies.map((movie) => (
-                            <Col md={4}>
+                            <Col md={4} className="mb-4">
                                 <MovieCard
                                     key={movie._id}
                                     movie={movie}
