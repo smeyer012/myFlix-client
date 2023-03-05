@@ -3,3 +3,12 @@ $color: steelblue;
 .my-flix {
     color: $color;
 }
+
+.bi {
+    height: 1em;
+    width: 1em;
+    vertical-align: -0.125em;
+    margin-right: 5px;
+}
+
+@import '~bootstrap/scss/bootstrap.scss';
