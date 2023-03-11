@@ -19,10 +19,13 @@ export const MainView = () => {
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
 
+    const [userFavs, setUserFavs] = useState([]);
+
     const URLS = [
         'https://hidden-sea-19542.herokuapp.com/movies',
         'https://hidden-sea-19542.herokuapp.com/directors',
         'https://hidden-sea-19542.herokuapp.com/genres',
+        'https://hidden-sea-19542.herokuapp.com/users/' + user.Username,
     ];
 
     const datafromAPI = async () => {
@@ -38,6 +41,7 @@ export const MainView = () => {
             movies,
             directors,
             genres,
+            userData
         ] = await Promise.all(fetchedUrls);
 
         const getList = (movie, typeProp, typeArray) => {
@@ -71,6 +75,9 @@ export const MainView = () => {
         });
 
         setMovies(moviesFromApi);
+
+        setUserFavs(userData.Favorites);
+
     }
 
     useEffect(() => {
@@ -155,6 +162,9 @@ export const MainView = () => {
                                         <Col md={6}>
                                             <MovieView
                                                 movies={movies}
+                                                user={user}
+                                                token={token}
+                                                userFavs={userFavs}
                                             />
                                         </Col>
                                     )}
@@ -175,6 +185,9 @@ export const MainView = () => {
                                                 <Col md={4} className="mb-4" key={movie._id}>
                                                     <MovieCard
                                                         movie={movie}
+                                                        user={user}
+                                                        token={token}
+                                                        userFavs={userFavs}
                                                     />
                                                 </Col>
                                             ))}
