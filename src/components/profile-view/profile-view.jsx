@@ -25,7 +25,8 @@ export const ProfileView = ({ user, token }) => {
             Username: username,
             Password: password,
             Email: email,
-            Birthday: birthday
+            Birthday: birthday,
+            Favorites: favorites
         };
 
         fetch("https://hidden-sea-19542.herokuapp.com/users/" + user.Username, {

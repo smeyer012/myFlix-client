@@ -7,6 +7,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { objectOf } from "prop-types";
 
 
 export const MainView = () => {
@@ -19,14 +20,21 @@ export const MainView = () => {
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
 
-    const [userFavs, setUserFavs] = useState([]);
+    const storedFavs = JSON.parse(localStorage.getItem("userFavIDs"));
+    const [userData] = useState([]);
+    let [userFavIDs, setUserFavIDs] = useState([storedFavs ? storedFavs : null]);
+    // console.log("storedFavs: " + storedFavs);
+    // let [userFavs, setUserFavs] = useState([]);
 
     const URLS = [
         'https://hidden-sea-19542.herokuapp.com/movies',
         'https://hidden-sea-19542.herokuapp.com/directors',
-        'https://hidden-sea-19542.herokuapp.com/genres',
-        'https://hidden-sea-19542.herokuapp.com/users/' + user.Username,
+        'https://hidden-sea-19542.herokuapp.com/genres'
     ];
+
+    if (user) {
+        URLS.push('https://hidden-sea-19542.herokuapp.com/users/' + user.Username);
+    }
 
     const datafromAPI = async () => {
 
@@ -76,7 +84,25 @@ export const MainView = () => {
 
         setMovies(moviesFromApi);
 
-        setUserFavs(userData.Favorites);
+        userFavIDs = userData.Favorites;
+        var userFavMovies = []
+
+        // getFavMovies = (userFavs)
+        userFavIDs.forEach((favMovie) => {
+            var favObj = movies.find(movie => movie._id == favMovie);
+            userFavMovies.push(favObj)
+        });
+        // setUserFavs(userFavMovies);
+
+        // console.log("Main - userFavs: " + userFavs);
+        // console.log(typeof userFavs);
+        // console.log("Main - Favs:" + userFavMovies);
+
+        userFavIDs = JSON.stringify(userFavIDs);
+
+        setUserFavIDs(userFavIDs);
+
+        // console.log("Main - userFavs2: " + userFavs);
 
     }
 
@@ -95,6 +121,7 @@ export const MainView = () => {
                     onLoggedOut={() => {
                         setUser(null);
                         setToken(null);
+                        setUserFavIDs([]);
                         localStorage.clear();
                     }}
                 />
@@ -144,6 +171,8 @@ export const MainView = () => {
                                             <ProfileView
                                                 user={user}
                                                 token={token}
+                                                movies={movies}
+                                                userFavIDs={userFavIDs}
                                             />
                                         </Col>
                                     )}
@@ -164,7 +193,7 @@ export const MainView = () => {
                                                 movies={movies}
                                                 user={user}
                                                 token={token}
-                                                userFavs={userFavs}
+                                                userFavIDs={userFavIDs}
                                             />
                                         </Col>
                                     )}
@@ -187,7 +216,7 @@ export const MainView = () => {
                                                         movie={movie}
                                                         user={user}
                                                         token={token}
-                                                        userFavs={userFavs}
+                                                        userFavIDs={userFavIDs}
                                                     />
                                                 </Col>
                                             ))}
