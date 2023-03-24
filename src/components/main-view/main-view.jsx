@@ -22,9 +22,11 @@ export const MainView = () => {
 
     const storedFavs = JSON.parse(localStorage.getItem("userFavIDs"));
     const [userData] = useState([]);
-    let [userFavIDs, setUserFavIDs] = useState([storedFavs ? storedFavs : null]);
-    // console.log("storedFavs: " + storedFavs);
-    // let [userFavs, setUserFavs] = useState([]);
+    const [userFavIDs, setUserFavIDs] = useState([storedFavs ? storedFavs : null]);
+    const [userFavs, setUserFavs] = useState([]);
+
+    console.log("stored " + storedFavs);
+    console.log("main 1 " + userFavIDs);
 
     const URLS = [
         'https://hidden-sea-19542.herokuapp.com/movies',
@@ -34,6 +36,51 @@ export const MainView = () => {
 
     if (user) {
         URLS.push('https://hidden-sea-19542.herokuapp.com/users/' + user.Username);
+    }
+
+    function logFav(theID) {
+        var checkBoxGroup = document.getElementById(theID);
+        var checkBox = checkBoxGroup.getElementsByTagName("input").item(0);
+        var checkLabel = checkBoxGroup.getElementsByTagName("label").item(0);
+        var fetchMethod;
+
+        if (checkBox.checked) {
+            checkLabel.innerText = "Remove from Favorites";
+            fetchMethod = "POST";
+            action = "add";
+        } else {
+            checkLabel.innerText = "Add to Favorites";
+            fetchMethod = "DELETE";
+            action = "remove";
+        }
+
+        fetch("https://hidden-sea-19542.herokuapp.com/users/" + user.Username + "/movies/" + theID, {
+            method: fetchMethod,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            }
+        }).then((response) => {
+            // console.log(response);
+            if (response.ok) {
+                console.log(action + ' ' + theID);
+                if (action == "add") {
+                    setUserFavs(userFavs.concat([theID]));
+                    console.log("userFavs  " + userFavs);
+                }
+                else if (action == "remove") {
+                    setUserFavs(userFavs.filter((item) => item != theID));
+                }
+                localStorage.setItem("userFavIDs", JSON.stringify(userFavs));
+            } else {
+                alert("Update failed");
+            }
+        });
+
+        // console.log("userFavs  " + userFavs);
+
+        // console.log("after " + JSON.parse(userFavIDs));
+
     }
 
     const datafromAPI = async () => {
@@ -84,27 +131,20 @@ export const MainView = () => {
 
         setMovies(moviesFromApi);
 
-        userFavIDs = userData.Favorites;
-        var userFavMovies = []
+        // userFavIDs = userData.Favorites;
+        // var userFavMovies = []
 
-        // getFavMovies = (userFavs)
-        userFavIDs.forEach((favMovie) => {
-            var favObj = movies.find(movie => movie._id == favMovie);
-            userFavMovies.push(favObj)
-        });
-        // setUserFavs(userFavMovies);
+        // userFavIDs.forEach((favMovie) => {
+        //     var favObj = movies.find(movie => movie._id == favMovie);
+        //     userFavMovies.push(favObj)
+        // });
 
-        // console.log("Main - userFavs: " + userFavs);
-        // console.log(typeof userFavs);
-        // console.log("Main - Favs:" + userFavMovies);
-
-        userFavIDs = JSON.stringify(userFavIDs);
-
-        setUserFavIDs(userFavIDs);
-
-        // console.log("Main - userFavs2: " + userFavs);
+        // userFavIDs = JSON.stringify(userData.Favorites);
+        setUserFavIDs(JSON.stringify(userData.Favorites));
 
     }
+
+    console.log("main 2 " + userFavIDs);
 
     useEffect(() => {
         if (!token) {
@@ -194,6 +234,7 @@ export const MainView = () => {
                                                 user={user}
                                                 token={token}
                                                 userFavIDs={userFavIDs}
+                                                logFav={logFav}
                                             />
                                         </Col>
                                     )}
@@ -217,6 +258,7 @@ export const MainView = () => {
                                                         user={user}
                                                         token={token}
                                                         userFavIDs={userFavIDs}
+                                                        logFav={logFav}
                                                     />
                                                 </Col>
                                             ))}

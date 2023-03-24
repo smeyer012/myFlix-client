@@ -1,16 +1,15 @@
+import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { AddFavs } from "../add-favorites/add-favorites";
 import "./movie-view.scss";
 
-export const MovieView = ({ movies, user, token, userFavs }) => {
+export const MovieView = ({ movies, user, token, userFavIDs, logFav }) => {
     const { movieId } = useParams();
     const movie = movies.find((m) => m.id === movieId);
-    var checkedValue = false;
-    if (userFavs.find(theID => theID == movie.id)) {
-        checkedValue = true;
-    }
+
+    console.log("View - " + userFavIDs);
 
     return (
         <div>
@@ -29,7 +28,8 @@ export const MovieView = ({ movies, user, token, userFavs }) => {
                 movieID={movie.id}
                 user={user}
                 token={token}
-                checkedValue={checkedValue}
+                userFavIDs={userFavIDs}
+                logFav={logFav}
             />
             <Link to={`/`}>
                 <Button className="back-button">Back</Button>

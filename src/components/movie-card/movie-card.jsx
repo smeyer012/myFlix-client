@@ -2,7 +2,8 @@ import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AddFavs } from "../add-favorites/add-favorites";
-export const MovieCard = ({ movie, user, token, userFavIDs }) => {
+export const MovieCard = ({ movie, user, token, userFavIDs, logFav }) => {
+    console.log("Card - " + userFavIDs);
     return (
         < Card className="h-100" >
             <Card.Img variant="top" src={movie.image} />
@@ -20,6 +21,7 @@ export const MovieCard = ({ movie, user, token, userFavIDs }) => {
                     user={user}
                     token={token}
                     userFavIDs={userFavIDs}
+                    logFav={logFav}
                 //storedFavs={storedFavs}
                 />
             </Card.Body>
