@@ -13,7 +13,6 @@ import { objectOf } from "prop-types";
 export const MainView = () => {
 
     const [movies, setMovies] = useState([]);
-    const [selectedMovie, setSelectedMovie] = useState(null);
 
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
@@ -102,6 +101,22 @@ export const MainView = () => {
 
     }
 
+    async function removeAcct() {
+
+        if (window.confirm("Do you really want to delete your account? This cannot be undone.")) {
+
+            const response = await fetch("https://hidden-sea-19542.herokuapp.com/users/" + user.Username, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            })
+
+        }
+
+    }
+
     useEffect(() => {
         if (!token) {
             return;
@@ -163,14 +178,26 @@ export const MainView = () => {
                                     {!user ? (
                                         <Navigate to="/login" />
                                     ) : (
-                                        <Col md={5} className="py-4">
-                                            <ProfileView
-                                                user={user}
-                                                token={token}
-                                                movies={movies}
-                                                userFavIDs={userFavIDs}
-                                            />
-                                        </Col>
+                                        <>
+                                            <Row className="justify-content-md-center">
+                                                <Col md={5} className="py-4">
+                                                    <ProfileView
+                                                        user={user}
+                                                        token={token}
+                                                        userFavIDs={userFavIDs}
+                                                        userFavMovies={userFavMovies}
+                                                        logFav={logFav}
+                                                        removeAcct={removeAcct}
+                                                        onLoggedOut={() => {
+                                                            setUser(null);
+                                                            setToken(null);
+                                                            setUserFavIDs([]);
+                                                            localStorage.clear();
+                                                        }}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        </>
                                     )}
                                 </>
                             }
