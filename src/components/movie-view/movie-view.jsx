@@ -9,8 +9,6 @@ export const MovieView = ({ movies, user, token, userFavIDs, logFav }) => {
     const { movieId } = useParams();
     const movie = movies.find((m) => m.id === movieId);
 
-    console.log("View - " + userFavIDs);
-
     return (
         <div>
             <img className="movie-img" src={movie.image} />
