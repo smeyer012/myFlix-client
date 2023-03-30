@@ -1,8 +1,14 @@
-import PropTypes from "prop-types";
-import { Button, Card } from "react-bootstrap";
+import { useState } from "react";
+import { Button } from "react-bootstrap";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import { AddFavs } from "../add-favorites/add-favorites";
 import "./movie-view.scss";
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movies, user, token, userFavIDs, logFav }) => {
+    const { movieId } = useParams();
+    const movie = movies.find((m) => m.id === movieId);
+
     return (
         <div>
             <img className="movie-img" src={movie.image} />
@@ -16,16 +22,16 @@ export const MovieView = ({ movie, onBackClick }) => {
                 <span>Genre: </span>
                 <span>{movie.genre}</span>
             </div>
-            <Button onClick={onBackClick}>Back</Button>
+            <AddFavs
+                movieID={movie.id}
+                user={user}
+                token={token}
+                userFavIDs={userFavIDs}
+                logFav={logFav}
+            />
+            <Link to={`/`}>
+                <Button className="back-button">Back</Button>
+            </Link>
         </div>
     );
-};
-
-MovieView.propTypes = {
-    movie: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        description: PropTypes.string.isRequired,
-        director: PropTypes.string.isRequired,
-        genre: PropTypes.string.isRequired
-    }).isRequired,
 };
