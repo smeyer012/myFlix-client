@@ -5,7 +5,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Row, Col } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
-import "./profile-view.scss";
 import { useNavigate } from "react-router-dom";
 
 export const ProfileView = ({ user, token, userFavMovies, userFavIDs, logFav, removeAcct, onLoggedOut }) => {
