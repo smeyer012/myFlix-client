@@ -14,13 +14,9 @@ export const MovieView = ({ movies, user, token, userFavIDs, logFav }) => {
             <img className="movie-img" src={movie.image} />
             <h2>{movie.title}</h2>
             <p>{movie.description}</p>
-            <div>
-                <span>Director: </span>
-                <span>{movie.director}</span>
-            </div>
-            <div>
-                <span>Genre: </span>
-                <span>{movie.genre}</span>
+            <div className="movie_info">
+                <p><strong>Director:</strong> {movie.director}</p>
+                <p><strong>Genre:</strong> {movie.genre}</p>
             </div>
             <AddFavs
                 movieID={movie.id}
@@ -30,7 +26,7 @@ export const MovieView = ({ movies, user, token, userFavIDs, logFav }) => {
                 logFav={logFav}
             />
             <Link to={`/`}>
-                <Button className="back-button">Back</Button>
+                <Button className="back-button" variant="outline-secondary">Back</Button>
             </Link>
         </div>
     );
