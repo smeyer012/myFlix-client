@@ -83,6 +83,16 @@ export const MainView = () => {
 
         setUserFavIDs(userData.Favorites);
 
+        var favIDs = userData.Favorites;
+
+        const favList = moviesFromApi.map(movie => {
+            if (favIDs.includes(movie.id)) {
+                return movie;
+            };
+        });
+
+        setUserFavMovies(favList);
+
     }
 
     async function logFav(id) {
