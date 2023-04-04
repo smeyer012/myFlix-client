@@ -67,7 +67,7 @@ export const LoginView = ({ onLoggedIn }) => {
                     Login
                 </Button>
             </Form>
-            <p>Don't have an accounts, please <a href="/signup">sign up</a></p>
+            <p>Don't have an account? Please <a href="/signup">sign up</a>.</p>
         </>
     );
 };
