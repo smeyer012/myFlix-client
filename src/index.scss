@@ -1,8 +1,4 @@
-$color: steelblue;
-
-.my-flix {
-    color: $color;
-}
+@import '~bootstrap/scss/bootstrap.scss';
 
 .bi {
     height: 1em;
@@ -11,4 +7,6 @@ $color: steelblue;
     margin-right: 5px;
 }
 
-@import '~bootstrap/scss/bootstrap.scss';
+.main_container {
+    padding: 30px 12px;
+}

@@ -1,0 +1,22 @@
+.navbar-brand {
+    padding-top: 14px;
+    color: $primary;
+
+    .brand_inner {
+        padding: 5px;
+    }
+
+    svg {
+        margin-right: 9px;
+    }
+}
+
+#basic-navbar-nav {
+    padding-bottom: 8px;
+}
+
+@include media-breakpoint-up(lg) {
+    #basic-navbar-nav {
+        padding: 0 0 0 15px;
+    }
+}
