@@ -1,12 +1,6 @@
 @import '~bootstrap/scss/bootstrap.scss';
 @import 'components/navigation-bar/navigation-bar.scss';
-
-.bi {
-    height: 1em;
-    width: 1em;
-    vertical-align: -0.125em;
-    margin-right: 5px;
-}
+@import 'components/add-favorites/add-favorites.scss';
 
 .main_container {
     padding: 30px 12px;
@@ -30,4 +24,16 @@ form {
         margin-top: 8px;
     }
 
+}
+
+.card-title {
+    margin-bottom: 15px;
+}
+
+.card-body {
+    padding-bottom: 20px;
+}
+
+.popover {
+    padding: 5px 10px;
 }
