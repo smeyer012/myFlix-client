@@ -148,7 +148,7 @@ export const MainView = () => {
                     }}
                 />
                 <Container className="main_container">
-                    <Row className="justify-content-md-center">
+                    <Row>
                         <Routes>
                             <Route
                                 path="/login"
@@ -157,14 +157,16 @@ export const MainView = () => {
                                         {user ? (
                                             <Navigate to="/" />
                                         ) : (
-                                            <Col md={5} className="py-4 login">
-                                                <LoginView
-                                                    onLoggedIn={(user, token) => {
-                                                        setUser(user);
-                                                        setToken(token);
-                                                    }}
-                                                />
-                                            </Col>
+                                            <Row className="justify-content-md-center">
+                                                <Col md={5} className="py-4 login">
+                                                    <LoginView
+                                                        onLoggedIn={(user, token) => {
+                                                            setUser(user);
+                                                            setToken(token);
+                                                        }}
+                                                    />
+                                                </Col>
+                                            </Row>
                                         )}
                                     </>
                                 }
@@ -176,9 +178,11 @@ export const MainView = () => {
                                         {user ? (
                                             <Navigate to="/" />
                                         ) : (
-                                            <Col md={5} className="py-4">
-                                                <SignupView />
-                                            </Col>
+                                            <Row className="justify-content-md-center">
+                                                <Col md={5} className="py-4">
+                                                    <SignupView />
+                                                </Col>
+                                            </Row>
                                         )}
                                     </>
                                 }
@@ -191,24 +195,20 @@ export const MainView = () => {
                                             <Navigate to="/login" />
                                         ) : (
                                             <>
-                                                <Row className="justify-content-md-center">
-                                                    <Col md={5} className="py-4">
-                                                        <ProfileView
-                                                            user={user}
-                                                            token={token}
-                                                            userFavIDs={userFavIDs}
-                                                            userFavMovies={userFavMovies}
-                                                            logFav={logFav}
-                                                            removeAcct={removeAcct}
-                                                            onLoggedOut={() => {
-                                                                setUser(null);
-                                                                setToken(null);
-                                                                setUserFavIDs([]);
-                                                                localStorage.clear();
-                                                            }}
-                                                        />
-                                                    </Col>
-                                                </Row>
+                                                <ProfileView
+                                                    user={user}
+                                                    token={token}
+                                                    userFavIDs={userFavIDs}
+                                                    userFavMovies={userFavMovies}
+                                                    logFav={logFav}
+                                                    removeAcct={removeAcct}
+                                                    onLoggedOut={() => {
+                                                        setUser(null);
+                                                        setToken(null);
+                                                        setUserFavIDs([]);
+                                                        localStorage.clear();
+                                                    }}
+                                                />
                                             </>
                                         )}
                                     </>
@@ -223,15 +223,17 @@ export const MainView = () => {
                                         ) : movies.length === 0 ? (
                                             <Col>The list is empty!</Col>
                                         ) : (
-                                            <Col md={6}>
-                                                <MovieView
-                                                    movies={movies}
-                                                    user={user}
-                                                    token={token}
-                                                    userFavIDs={userFavIDs}
-                                                    logFav={logFav}
-                                                />
-                                            </Col>
+                                            <Row className="justify-content-md-center">
+                                                <Col md={6}>
+                                                    <MovieView
+                                                        movies={movies}
+                                                        user={user}
+                                                        token={token}
+                                                        userFavIDs={userFavIDs}
+                                                        logFav={logFav}
+                                                    />
+                                                </Col>
+                                            </Row>
                                         )}
                                     </>
                                 }
@@ -247,7 +249,7 @@ export const MainView = () => {
                                         ) : (
                                             <>
                                                 {movies.map((movie) => (
-                                                    <Col md={4} className="mb-4" key={movie.id}>
+                                                    <Col md={4} xs={6} className="mb-4" key={movie.id}>
                                                         <MovieCard
                                                             movie={movie}
                                                             user={user}
