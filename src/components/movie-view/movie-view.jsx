@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 import { AddFavs } from "../add-favorites/add-favorites";
 import "./movie-view.scss";
 
-export const MovieView = ({ movies, user, token, userFavIDs, logFav }) => {
+export const MovieView = ({ user, token, userFavIDs, logFav }) => {
+
+    const movies = useSelector((state) => state.movies);
+
     const { movieId } = useParams();
     const movie = movies.find((m) => m.id === movieId);
 

@@ -7,17 +7,21 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { objectOf } from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { setMovies } from "../../redux/reducers/movies";
 
 
 export const MainView = () => {
 
-    const [movies, setMovies] = useState([]);
+    // const [movies, setMovies] = useState([]);
+    const movies = useSelector((state) => state.movies);
 
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
     const [user, setUser] = useState(storedUser ? storedUser : null);
     const [token, setToken] = useState(storedToken ? storedToken : null);
+
+    const dispatch = useDispatch();
 
     const [userData] = useState([]);
     const [userFavIDs, setUserFavIDs] = useState([]);
@@ -79,7 +83,9 @@ export const MainView = () => {
             };
         });
 
-        setMovies(moviesFromApi);
+
+        // setMovies(moviesFromApi);
+        dispatch(setMovies(moviesFromApi));
 
         setUserFavIDs(userData.Favorites);
 
@@ -226,7 +232,6 @@ export const MainView = () => {
                                             <Row className="justify-content-md-center">
                                                 <Col md={6}>
                                                     <MovieView
-                                                        movies={movies}
                                                         user={user}
                                                         token={token}
                                                         userFavIDs={userFavIDs}
