@@ -1,12 +1,16 @@
 import { createRoot } from 'react-dom/client';
 import { MainView } from "./components/main-view/main-view";
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
 
 import "./index.scss";
 
 // Main component 
 const MyFlixApplication = () => {
     return (
-        <MainView />
+        <Provider store={store}>
+            <MainView />
+        </Provider>
     );
 };
 
