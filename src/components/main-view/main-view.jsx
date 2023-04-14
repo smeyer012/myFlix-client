@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
+import { MoviesList } from "../movies-list/movies-list";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
@@ -246,26 +247,14 @@ export const MainView = () => {
                             <Route
                                 path="/"
                                 element={
-                                    <>
-                                        {!user ? (
-                                            <Navigate to="/login" replace />
-                                        ) : movies.length === 0 ? (
-                                            <Col>The list is empty!</Col>
-                                        ) : (
-                                            <>
-                                                {movies.map((movie) => (
-                                                    <Col md={4} xs={6} className="mb-4" key={movie.id}>
-                                                        <MovieCard
-                                                            movie={movie}
-                                                            user={user}
-                                                            token={token}
-                                                            userFavIDs={userFavIDs}
-                                                            logFav={logFav}
-                                                        />
-                                                    </Col>
-                                                ))}
-                                            </>
-                                        )}
+                                    <>{!user ? <Navigate to="/login" replace /> :
+                                        <MoviesList
+                                            user={user}
+                                            token={token}
+                                            userFavIDs={userFavIDs}
+                                            logFav={logFav}
+                                        />
+                                    }
                                     </>
                                 }
                             />
