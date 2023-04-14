@@ -1,9 +1,6 @@
 import { useState } from "react";
 import moment from "moment";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button, Form } from "react-bootstrap";
 import { MovieCard } from "../movie-card/movie-card";
 import { useNavigate } from "react-router-dom";
 
@@ -48,8 +45,8 @@ export const ProfileView = ({ user, token, userFavMovies, userFavIDs, logFav, re
 
     return (
         <>
-            <Card>
-                <Card.Body>
+            <Row className="justify-content-md-center">
+                <Col md={6} className="py-4">
                     <h2>Your Profile</h2>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="formAddUsername">
@@ -99,12 +96,12 @@ export const ProfileView = ({ user, token, userFavMovies, userFavIDs, logFav, re
                             Update Profile
                         </Button>
                     </Form>
-                </Card.Body>
-            </Card>
-            <Row>
+                </Col>
+            </Row>
+            <Row className="myFavs">
                 <h3>Your Favorites</h3>
                 {favMovies.map((movie) => (
-                    <Col md={4} className="mb-4" key={movie.id} id={movie.id}>
+                    <Col md={3} className="mb-4" key={movie.id} id={movie.id}>
                         <MovieCard
                             movie={movie}
                             user={user}
@@ -115,14 +112,16 @@ export const ProfileView = ({ user, token, userFavMovies, userFavIDs, logFav, re
                     </Col>
                 ))}
             </Row>
-            <Row className="py-5">
-                <Button id="remove_account" variant="warning"
-                    onClick={(e) => {
-                        removeAcct()
-                        onLoggedOut()
-                    }}>
-                    Remove Profile
-                </Button>
+            <Row className="py-5 justify-content-md-center">
+                <Col md={3} className="py-4">
+                    <Button id="remove_account" variant="warning"
+                        onClick={(e) => {
+                            removeAcct()
+                            onLoggedOut()
+                        }}>
+                        Remove Profile
+                    </Button>
+                </Col>
             </Row>
         </>
     );

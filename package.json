@@ -9,12 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.5",
     "bootstrap": "^5.2.0",
     "moment": "^2.29.4",
     "prop-types": "^15.8.1",
     "react": "18.0.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "18.0.0",
+    "react-redux": "^8.0.5",
     "react-router": "6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "4.0.0",
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.3",
+    "parcel": "^2.8.3",
     "process": "^0.11.10"
   }
 }

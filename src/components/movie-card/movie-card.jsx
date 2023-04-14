@@ -11,13 +11,6 @@ export const MovieCard = ({ movie, user, token, userFavIDs, logFav }) => {
             <Card.Img variant="top" src={movie.image} />
             <Card.Body>
                 <Card.Title>{movie.title}</Card.Title>
-                <Card.Text>{movie.director}</Card.Text>
-                <Card.Text>{movie.id}</Card.Text>
-                <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
-                    <Button>
-                        Open
-                    </Button>
-                </Link>
                 <AddFavs
                     movieID={movie.id}
                     user={user}
@@ -25,6 +18,11 @@ export const MovieCard = ({ movie, user, token, userFavIDs, logFav }) => {
                     userFavIDs={userFavIDs}
                     logFav={logFav}
                 />
+                <Link to={`/movies/${encodeURIComponent(movie.id)}`}>
+                    <Button variant="outline-secondary">
+                        More Info
+                    </Button>
+                </Link>
             </Card.Body>
         </Card >
     );

@@ -1,0 +1,25 @@
+.navbar-brand {
+    padding-top: 14px;
+    color: $primary;
+
+    .brand_inner {
+        padding: 5px;
+    }
+
+    .bi {
+        height: 1em;
+        width: 1em;
+        vertical-align: -0.125em;
+        margin-right: 9px;
+    }
+}
+
+#basic-navbar-nav {
+    padding-bottom: 8px;
+}
+
+@include media-breakpoint-up(lg) {
+    #basic-navbar-nav {
+        padding: 0 0 0 15px;
+    }
+}

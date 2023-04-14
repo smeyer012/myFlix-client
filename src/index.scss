@@ -1,14 +1,45 @@
-$color: steelblue;
-
-.my-flix {
-    color: $color;
-}
-
-.bi {
-    height: 1em;
-    width: 1em;
-    vertical-align: -0.125em;
-    margin-right: 5px;
-}
-
 @import '~bootstrap/scss/bootstrap.scss';
+@import 'components/navigation-bar/navigation-bar.scss';
+@import 'components/add-favorites/add-favorites.scss';
+@import 'components/profile-view/profile-view.scss';
+
+
+.main_container {
+    padding: 30px 12px;
+}
+
+.login {
+    h2 {
+        margin-bottom: 25px;
+        color: $primary;
+    }
+}
+
+form {
+    margin-bottom: 20px;
+
+    input {
+        margin-bottom: 15px;
+    }
+
+    button[type=submit] {
+        margin-top: 8px;
+    }
+
+}
+
+.card-title {
+    margin-bottom: 15px;
+}
+
+.card-body {
+    padding-bottom: 20px;
+}
+
+.popover {
+    padding: 5px 10px;
+}
+
+.movie-filter input {
+    margin-bottom: 25px;
+}
