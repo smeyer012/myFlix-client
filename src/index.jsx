@@ -3,7 +3,6 @@ import { MainView } from "./components/main-view/main-view";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
 
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import "./index.scss";
 
 // Main component 
